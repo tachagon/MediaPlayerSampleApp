@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private float maxVolume = 10;
     private float currentVolume = maxVolume / 2;
 
+    private int seekStep = 5000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,17 +35,21 @@ public class MainActivity extends AppCompatActivity {
         // Find Objects in XML
         Button playButton = (Button) findViewById(R.id.play);
         Button pauseButton = (Button) findViewById(R.id.pause);
+
         volumeProgressBar = (ProgressBar) findViewById(R.id.volume_progress_bar);
         Button decreaseVolumeButton = (Button) findViewById(R.id.decrease_volume);
         Button increaseVolumeButton = (Button) findViewById(R.id.increase_volume);
+
         seekBar = (SeekBar) findViewById(R.id.seekBar);
+
+        Button backwardButton = (Button) findViewById(R.id.backward);
+        Button forwardButton = (Button) findViewById(R.id.forward);
 
         // Initial for seek bar
         seekBar.setProgress(0);
 
         // Set initial volume
         mediaPlayer.setVolume(currentVolume/maxVolume, currentVolume/maxVolume);
-        Log.i("Here-------------", "" + (currentVolume/maxVolume));
         volumeProgressBar.setProgress((int)((currentVolume/maxVolume) * 100));
 
         // Define behavior for play button
@@ -74,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
                     currentVolume = 0;
 
                 mediaPlayer.setVolume(currentVolume/maxVolume, currentVolume/maxVolume);
-                Log.i("Here-------------", "" + (currentVolume/maxVolume));
                 volumeProgressBar.setProgress((int)((currentVolume/maxVolume) * 100));
             }
         });
@@ -88,8 +93,23 @@ public class MainActivity extends AppCompatActivity {
                     currentVolume = maxVolume;
 
                 mediaPlayer.setVolume(currentVolume/maxVolume, currentVolume/maxVolume);
-                Log.i("Here-------------", "" + (currentVolume/maxVolume));
                 volumeProgressBar.setProgress((int)((currentVolume/maxVolume) * 100));
+            }
+        });
+
+        // Define behavior for backward button
+        backwardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - seekStep);
+            }
+        });
+
+        // Define behavior for forward button
+        forwardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + seekStep);
             }
         });
 
