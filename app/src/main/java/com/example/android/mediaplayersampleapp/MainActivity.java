@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import static com.example.android.mediaplayersampleapp.R.id.seekBar;
 
@@ -60,6 +61,15 @@ public class MainActivity extends AppCompatActivity {
                 mediaPlayer.start();
                 // call Runnable for the First time
                 handler.postDelayed(UpdateSongProgress, 100);
+
+                // Set Callback when end of song
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        Toast.makeText(MainActivity.this, "I'm done!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         });
 
